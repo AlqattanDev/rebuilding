@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sections Management - Portfolio Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .nav-item {
+            transition: all 0.2s ease;
+        }
+
+        .nav-item:hover {
+            background: rgba(102, 126, 234, 0.1);
+            border-left: 3px solid #667eea;
+        }
+
+        .nav-item.active {
+            background: rgba(102, 126, 234, 0.15);
+            border-left: 3px solid #667eea;
+            color: #667eea;
+        }
+
+        .section-card {
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            background: white;
+            transition: all 0.2s ease;
+            cursor: move;
+        }
+
+        .section-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 8px 24px rgba(102, 126, 234, 0.15);
+        }
+
+        .section-card.disabled {
+            opacity: 0.5;
+            background: #f9fafb;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 52px;
+            height: 28px;
+            background: #e5e7eb;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-switch.active {
+            background: #667eea;
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .toggle-switch.active::after {
+            left: 26px;
+        }
+
+        .drag-handle {
+            cursor: move;
+            color: #9ca3af;
+            transition: color 0.2s ease;
+        }
+
+        .section-card:hover .drag-handle {
+            color: #667eea;
+        }
+
+        .visibility-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .visibility-public {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .visibility-private {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .config-panel {
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            background: #f9fafb;
+            padding: 16px;
+        }
+
+        .preview-miniature {
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+
+        .preview-miniature:hover {
+            border-color: #667eea;
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white border-r border-gray-200 flex flex-col">
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center">
+                        <i class="fas fa-briefcase text-white"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-900">PortfolioCMS</h1>
+                        <p class="text-xs text-gray-500">Admin Panel</p>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="flex-1 overflow-y-auto p-4 space-y-1">
+                <a href="admin-dashboard.html" class="nav-item flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-medium text-gray-700">
+                    <i class="fas fa-home w-5"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="content-management.html" class="nav-item flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-medium text-gray-700">
+                    <i class="fas fa-file-alt w-5"></i>
+                    <span>Content</span>
+                </a>
+                <a href="appearance-customization.html" class="nav-item flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-medium text-gray-700">
+                    <i class="fas fa-palette w-5"></i>
+                    <span>Appearance</span>
+                </a>
+                <a href="#" class="nav-item active flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-medium">
+                    <i class="fas fa-layer-group w-5"></i>
+                    <span>Sections</span>
+                </a>
+                <a href="#" class="nav-item flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-medium text-gray-700">
+                    <i class="fas fa-images w-5"></i>
+                    <span>Media</span>
+                </a>
+            </nav>
+
+            <div class="p-4 border-t border-gray-200">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-semibold">
+                        JD
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-medium text-gray-900 truncate">John Doe</p>
+                        <p class="text-xs text-gray-500 truncate">john@example.com</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex overflow-hidden">
+            <!-- Sections List -->
+            <div class="w-96 bg-white border-r border-gray-200 overflow-y-auto">
+                <div class="p-6 border-b border-gray-200">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-2">Sections</h2>
+                    <p class="text-sm text-gray-500">Drag to reorder, toggle to show/hide</p>
+                </div>
+
+                <div class="p-6 space-y-4">
+                    <!-- Hero Section -->
+                    <div class="section-card p-4">
+                        <div class="flex items-start space-x-4">
+                            <i class="fas fa-grip-vertical drag-handle mt-1"></i>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="flex items-center space-x-3">
+                                        <i class="fas fa-star text-purple-600"></i>
+                                        <h3 class="text-base font-semibold text-gray-900">Hero</h3>
+                                    </div>
+                                    <div class="toggle-switch active" onclick="toggleSection(this)"></div>
+                                </div>
+                                <p class="text-sm text-gray-500 mb-2">Main landing section with name and tagline</p>
+                                <div class="flex items-center space-x-2">
+                                    <span class="visibility-badge visibility-public">
+                                        <i class="fas fa-eye mr-1"></i>Public
+                                    </span>
+                                    <button class="text-xs text-purple-600 hover:text-purple-700 font-medium">
+                                        <i class="fas fa-cog mr-1"></i>Configure
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- About Section -->
+                    <div class="section-card p-4">
+                        <div class="flex items-start space-x-4">
+                            <i class="fas fa-grip-vertical drag-handle mt-1"></i>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="flex items-center space-x-3">
+                                        <i class="fas fa-user text-blue-600"></i>
+                                        <h3 class="text-base font-semibold text-gray-900">About</h3>
+                                    </div>
+                                    <div class="toggle-switch active" onclick="toggleSection(this)"></div>
+                                </div>
+                                <p class="text-sm text-gray-500 mb-2">Introduction and background information</p>
+                                <div class="flex items-center space-x-2">
+                                    <span class="visibility-badge visibility-public">
+                                        <i class="fas fa-eye mr-1"></i>Public
+                                    </span>
+                                    <button class="text-xs text-purple-600 hover:text-purple-700 font-medium">
+                                        <i class="fas fa-cog mr-1"></i>Configure
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Projects Section -->
+                    <div class="section-card p-4">
+                        <div class="flex items-start space-x-4">
+                            <i class="fas fa-grip-vertical drag-handle mt-1"></i>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="flex items-center space-x-3">
+                                        <i class="fas fa-project-diagram text-green-600"></i>
+                                        <h3 class="text-base font-semibold text-gray-900">Projects</h3>
+                                    </div>
+                                    <div class="toggle-switch active" onclick="toggleSection(this)"></div>
+                                </div>
+                                <p class="text-sm text-gray-500 mb-2">Portfolio project showcase</p>
+                                <div class="flex items-center space-x-2">
+                                    <span class="visibility-badge visibility-public">
+                                        <i class="fas fa-eye mr-1"></i>Public
+                                    </span>
+                                    <button class="text-xs text-purple-600 hover:text-purple-700 font-medium">
+                                        <i class="fas fa-cog mr-1"></i>Configure
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Skills Section -->
+                    <div class="section-card p-4">
+                        <div class="flex items-start space-x-4">
+                            <i class="fas fa-grip-vertical drag-handle mt-1"></i>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="flex items-center space-x-3">
+                                        <i class="fas fa-code text-orange-600"></i>
+                                        <h3 class="text-base font-semibold text-gray-900">Skills</h3>
+                                    </div>
+                                    <div class="toggle-switch active" onclick="toggleSection(this)"></div>
+                                </div>
+                                <p class="text-sm text-gray-500 mb-2">Technical skills and expertise</p>
+                                <div class="flex items-center space-x-2">
+                                    <span class="visibility-badge visibility-public">
+                                        <i class="fas fa-eye mr-1"></i>Public
+                                    </span>
+                                    <button class="text-xs text-purple-600 hover:text-purple-700 font-medium">
+                                        <i class="fas fa-cog mr-1"></i>Configure
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Experience Section -->
+                    <div class="section-card p-4">
+                        <div class="flex items-start space-x-4">
+                            <i class="fas fa-grip-vertical drag-handle mt-1"></i>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="flex items-center space-x-3">
+                                        <i class="fas fa-briefcase text-indigo-600"></i>
+                                        <h3 class="text-base font-semibold text-gray-900">Experience</h3>
+                                    </div>
+                                    <div class="toggle-switch active" onclick="toggleSection(this)"></div>
+                                </div>
+                                <p class="text-sm text-gray-500 mb-2">Work history and career timeline</p>
+                                <div class="flex items-center space-x-2">
+                                    <span class="visibility-badge visibility-public">
+                                        <i class="fas fa-eye mr-1"></i>Public
+                                    </span>
+                                    <button class="text-xs text-purple-600 hover:text-purple-700 font-medium">
+                                        <i class="fas fa-cog mr-1"></i>Configure
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Testimonials Section (Disabled) -->
+                    <div class="section-card disabled p-4">
+                        <div class="flex items-start space-x-4">
+                            <i class="fas fa-grip-vertical drag-handle mt-1"></i>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="flex items-center space-x-3">
+                                        <i class="fas fa-quote-left text-pink-600"></i>
+                                        <h3 class="text-base font-semibold text-gray-900">Testimonials</h3>
+                                    </div>
+                                    <div class="toggle-switch" onclick="toggleSection(this)"></div>
+                                </div>
+                                <p class="text-sm text-gray-500 mb-2">Client reviews and recommendations</p>
+                                <div class="flex items-center space-x-2">
+                                    <span class="visibility-badge visibility-private">
+                                        <i class="fas fa-eye-slash mr-1"></i>Hidden
+                                    </span>
+                                    <button class="text-xs text-purple-600 hover:text-purple-700 font-medium">
+                                        <i class="fas fa-cog mr-1"></i>Configure
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Blog Section (Disabled) -->
+                    <div class="section-card disabled p-4">
+                        <div class="flex items-start space-x-4">
+                            <i class="fas fa-grip-vertical drag-handle mt-1"></i>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="flex items-center space-x-3">
+                                        <i class="fas fa-blog text-yellow-600"></i>
+                                        <h3 class="text-base font-semibold text-gray-900">Blog</h3>
+                                    </div>
+                                    <div class="toggle-switch" onclick="toggleSection(this)"></div>
+                                </div>
+                                <p class="text-sm text-gray-500 mb-2">Articles and blog posts</p>
+                                <div class="flex items-center space-x-2">
+                                    <span class="visibility-badge visibility-private">
+                                        <i class="fas fa-eye-slash mr-1"></i>Hidden
+                                    </span>
+                                    <button class="text-xs text-purple-600 hover:text-purple-700 font-medium">
+                                        <i class="fas fa-cog mr-1"></i>Configure
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contact Section -->
+                    <div class="section-card p-4">
+                        <div class="flex items-start space-x-4">
+                            <i class="fas fa-grip-vertical drag-handle mt-1"></i>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="flex items-center space-x-3">
+                                        <i class="fas fa-envelope text-red-600"></i>
+                                        <h3 class="text-base font-semibold text-gray-900">Contact</h3>
+                                    </div>
+                                    <div class="toggle-switch active" onclick="toggleSection(this)"></div>
+                                </div>
+                                <p class="text-sm text-gray-500 mb-2">Contact form and information</p>
+                                <div class="flex items-center space-x-2">
+                                    <span class="visibility-badge visibility-public">
+                                        <i class="fas fa-eye mr-1"></i>Public
+                                    </span>
+                                    <button class="text-xs text-purple-600 hover:text-purple-700 font-medium">
+                                        <i class="fas fa-cog mr-1"></i>Configure
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Add Section Button -->
+                    <button class="w-full p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-purple-500 hover:bg-purple-50 transition text-center">
+                        <i class="fas fa-plus text-2xl text-gray-400 mb-2"></i>
+                        <p class="text-sm font-medium text-gray-600">Add New Section</p>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Configuration Panel -->
+            <div class="flex-1 overflow-y-auto">
+                <div class="p-8">
+                    <div class="mb-8">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-2">Section Configuration</h2>
+                        <p class="text-sm text-gray-500">Customize how this section appears</p>
+                    </div>
+
+                    <!-- Hero Section Config -->
+                    <div class="bg-white border border-gray-200 rounded-xl p-6 mb-6">
+                        <div class="flex items-center space-x-3 mb-6">
+                            <i class="fas fa-star text-2xl text-purple-600"></i>
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900">Hero Section</h3>
+                                <p class="text-sm text-gray-500">Your portfolio's first impression</p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-6">
+                            <!-- Layout Style -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-3">Layout Style</label>
+                                <div class="grid grid-cols-3 gap-4">
+                                    <div class="preview-miniature p-4 cursor-pointer border-purple-600 bg-purple-50">
+                                        <div class="bg-gradient-to-br from-purple-400 to-pink-400 h-24 rounded mb-2"></div>
+                                        <p class="text-xs font-medium text-center text-gray-700">Centered</p>
+                                    </div>
+                                    <div class="preview-miniature p-4 cursor-pointer">
+                                        <div class="bg-gradient-to-br from-blue-400 to-cyan-400 h-24 rounded mb-2"></div>
+                                        <p class="text-xs font-medium text-center text-gray-700">Split</p>
+                                    </div>
+                                    <div class="preview-miniature p-4 cursor-pointer">
+                                        <div class="bg-gradient-to-br from-green-400 to-emerald-400 h-24 rounded mb-2"></div>
+                                        <p class="text-xs font-medium text-center text-gray-700">Minimal</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Background Options -->
+                            <div class="config-panel">
+                                <label class="block text-sm font-medium text-gray-900 mb-3">Background</label>
+                                <div class="space-y-3">
+                                    <label class="flex items-center space-x-3 cursor-pointer">
+                                        <input type="radio" name="bg-type" checked class="w-4 h-4 text-purple-600">
+                                        <span class="text-sm text-gray-700">Gradient</span>
+                                    </label>
+                                    <label class="flex items-center space-x-3 cursor-pointer">
+                                        <input type="radio" name="bg-type" class="w-4 h-4 text-purple-600">
+                                        <span class="text-sm text-gray-700">Solid Color</span>
+                                    </label>
+                                    <label class="flex items-center space-x-3 cursor-pointer">
+                                        <input type="radio" name="bg-type" class="w-4 h-4 text-purple-600">
+                                        <span class="text-sm text-gray-700">Image</span>
+                                    </label>
+                                    <label class="flex items-center space-x-3 cursor-pointer">
+                                        <input type="radio" name="bg-type" class="w-4 h-4 text-purple-600">
+                                        <span class="text-sm text-gray-700">Video</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Animation Options -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-3">Entrance Animation</label>
+                                <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                                    <option>Fade In</option>
+                                    <option>Slide Up</option>
+                                    <option>Scale In</option>
+                                    <option>None</option>
+                                </select>
+                            </div>
+
+                            <!-- Height Setting -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-3">Section Height</label>
+                                <div class="flex items-center space-x-4">
+                                    <input type="range" min="400" max="900" value="600" class="flex-1">
+                                    <span class="text-sm font-semibold text-purple-600 w-16">600px</span>
+                                </div>
+                            </div>
+
+                            <!-- CTA Buttons -->
+                            <div class="config-panel">
+                                <label class="block text-sm font-medium text-gray-900 mb-3">Call-to-Action Buttons</label>
+                                <div class="space-y-3">
+                                    <label class="flex items-center justify-between">
+                                        <span class="text-sm text-gray-700">Show Primary CTA</span>
+                                        <div class="toggle-switch active"></div>
+                                    </label>
+                                    <label class="flex items-center justify-between">
+                                        <span class="text-sm text-gray-700">Show Secondary CTA</span>
+                                        <div class="toggle-switch active"></div>
+                                    </label>
+                                    <label class="flex items-center justify-between">
+                                        <span class="text-sm text-gray-700">Show Social Links</span>
+                                        <div class="toggle-switch active"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Save Actions -->
+                    <div class="flex items-center justify-between bg-white border border-gray-200 rounded-xl p-6">
+                        <p class="text-sm text-gray-600">
+                            <i class="fas fa-info-circle text-purple-600 mr-2"></i>
+                            Changes are saved automatically
+                        </p>
+                        <div class="flex space-x-3">
+                            <button class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
+                                Reset to Default
+                            </button>
+                            <button class="px-4 py-2 text-sm font-medium text-white gradient-bg rounded-lg hover:opacity-90">
+                                <i class="fas fa-eye mr-2"></i>Preview Changes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleSection(toggle) {
+            toggle.classList.toggle('active');
+            const card = toggle.closest('.section-card');
+            card.classList.toggle('disabled');
+
+            const badge = card.querySelector('.visibility-badge');
+            if (toggle.classList.contains('active')) {
+                badge.className = 'visibility-badge visibility-public';
+                badge.innerHTML = '<i class="fas fa-eye mr-1"></i>Public';
+            } else {
+                badge.className = 'visibility-badge visibility-private';
+                badge.innerHTML = '<i class="fas fa-eye-slash mr-1"></i>Hidden';
+            }
+        }
+    </script>
+</body>
+</html>

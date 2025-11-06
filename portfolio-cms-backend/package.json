@@ -1,0 +1,49 @@
+{
+  "name": "portfolio-cms-backend",
+  "version": "1.0.0",
+  "description": "Backend API for scalable portfolio CMS",
+  "main": "dist/server.js",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "migrate": "typeorm migration:run -d dist/config/database.js",
+    "migrate:generate": "typeorm migration:generate -d dist/config/database.js",
+    "lint": "eslint src --ext ts",
+    "test": "jest --watch"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "typescript": "^5.1.6",
+    "typeorm": "^0.3.16",
+    "pg": "^8.11.1",
+    "dotenv": "^16.3.1",
+    "cors": "^2.8.5",
+    "helmet": "^7.0.0",
+    "jsonwebtoken": "^9.0.1",
+    "bcryptjs": "^2.4.3",
+    "joi": "^17.10.0",
+    "express-validator": "^7.0.0",
+    "sanity": "^3.13.0",
+    "@sanity/client": "^6.4.9",
+    "axios": "^1.4.0",
+    "uuid": "^9.0.0",
+    "compression": "^1.7.4",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.17",
+    "@types/node": "^20.3.1",
+    "@types/jsonwebtoken": "^9.0.2",
+    "@types/bcryptjs": "^2.4.2",
+    "@types/jest": "^29.5.2",
+    "tsx": "^3.12.8",
+    "jest": "^29.6.0",
+    "ts-jest": "^29.1.0",
+    "eslint": "^8.44.0",
+    "@typescript-eslint/eslint-plugin": "^5.61.0",
+    "@typescript-eslint/parser": "^5.61.0"
+  }
+}

@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appearance Customization - Portfolio Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&family=Roboto+Mono:wght@400;500&display=swap');
+
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .nav-item {
+            transition: all 0.2s ease;
+        }
+
+        .nav-item:hover {
+            background: rgba(102, 126, 234, 0.1);
+            border-left: 3px solid #667eea;
+        }
+
+        .nav-item.active {
+            background: rgba(102, 126, 234, 0.15);
+            border-left: 3px solid #667eea;
+            color: #667eea;
+        }
+
+        .color-picker-card {
+            position: relative;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .color-picker-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        .color-input-wrapper {
+            position: relative;
+        }
+
+        .color-preview {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 3px solid white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .font-card {
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .font-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+        }
+
+        .font-card.selected {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .preview-device {
+            transition: all 0.3s ease;
+        }
+
+        .preview-desktop {
+            width: 100%;
+            height: 600px;
+        }
+
+        .preview-mobile {
+            width: 375px;
+            height: 667px;
+            margin: 0 auto;
+        }
+
+        .device-btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .device-btn:hover {
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .device-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .spacing-slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: #e5e7eb;
+            outline: none;
+        }
+
+        .spacing-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+        }
+
+        .spacing-slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+        }
+
+        .theme-preset {
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .theme-preset:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .theme-preset.selected {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white border-r border-gray-200 flex flex-col">
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center">
+                        <i class="fas fa-briefcase text-white"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-900">PortfolioCMS</h1>
+                        <p class="text-xs text-gray-500">Admin Panel</p>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="flex-1 overflow-y-auto p-4 space-y-1">
+                <a href="admin-dashboard.html" class="nav-item flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-medium text-gray-700">
+                    <i class="fas fa-home w-5"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="content-management.html" class="nav-item flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-medium text-gray-700">
+                    <i class="fas fa-file-alt w-5"></i>
+                    <span>Content</span>
+                </a>
+                <a href="#" class="nav-item active flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-medium">
+                    <i class="fas fa-palette w-5"></i>
+                    <span>Appearance</span>
+                </a>
+                <a href="sections-management.html" class="nav-item flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-medium text-gray-700">
+                    <i class="fas fa-layer-group w-5"></i>
+                    <span>Sections</span>
+                </a>
+                <a href="#" class="nav-item flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-medium text-gray-700">
+                    <i class="fas fa-images w-5"></i>
+                    <span>Media</span>
+                </a>
+                <a href="#" class="nav-item flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-medium text-gray-700">
+                    <i class="fas fa-chart-line w-5"></i>
+                    <span>Analytics</span>
+                </a>
+            </nav>
+
+            <div class="p-4 border-t border-gray-200">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-semibold">
+                        JD
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-medium text-gray-900 truncate">John Doe</p>
+                        <p class="text-xs text-gray-500 truncate">john@example.com</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <div class="flex-1 flex overflow-hidden">
+            <!-- Customization Panel -->
+            <div class="w-96 bg-white border-r border-gray-200 overflow-y-auto">
+                <div class="p-6 border-b border-gray-200">
+                    <h2 class="text-2xl font-bold text-gray-900">Appearance</h2>
+                    <p class="text-sm text-gray-500 mt-1">Customize your portfolio's look and feel</p>
+                </div>
+
+                <div class="p-6 space-y-8">
+                    <!-- Theme Presets -->
+                    <div>
+                        <h3 class="text-base font-semibold text-gray-900 mb-4">Theme Presets</h3>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="theme-preset selected" onclick="applyTheme('modern')">
+                                <div class="flex space-x-1 mb-2">
+                                    <div class="w-4 h-4 rounded bg-purple-600"></div>
+                                    <div class="w-4 h-4 rounded bg-pink-500"></div>
+                                    <div class="w-4 h-4 rounded bg-blue-500"></div>
+                                </div>
+                                <p class="text-xs font-medium text-gray-900">Modern</p>
+                                <p class="text-xs text-gray-500">Purple & Pink</p>
+                            </div>
+                            <div class="theme-preset" onclick="applyTheme('professional')">
+                                <div class="flex space-x-1 mb-2">
+                                    <div class="w-4 h-4 rounded bg-blue-900"></div>
+                                    <div class="w-4 h-4 rounded bg-gray-700"></div>
+                                    <div class="w-4 h-4 rounded bg-blue-600"></div>
+                                </div>
+                                <p class="text-xs font-medium text-gray-900">Professional</p>
+                                <p class="text-xs text-gray-500">Navy & Gray</p>
+                            </div>
+                            <div class="theme-preset" onclick="applyTheme('creative')">
+                                <div class="flex space-x-1 mb-2">
+                                    <div class="w-4 h-4 rounded bg-orange-500"></div>
+                                    <div class="w-4 h-4 rounded bg-yellow-400"></div>
+                                    <div class="w-4 h-4 rounded bg-red-500"></div>
+                                </div>
+                                <p class="text-xs font-medium text-gray-900">Creative</p>
+                                <p class="text-xs text-gray-500">Warm Colors</p>
+                            </div>
+                            <div class="theme-preset" onclick="applyTheme('minimal')">
+                                <div class="flex space-x-1 mb-2">
+                                    <div class="w-4 h-4 rounded bg-gray-900"></div>
+                                    <div class="w-4 h-4 rounded bg-gray-300"></div>
+                                    <div class="w-4 h-4 rounded bg-white border"></div>
+                                </div>
+                                <p class="text-xs font-medium text-gray-900">Minimal</p>
+                                <p class="text-xs text-gray-500">Monochrome</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Color Palette -->
+                    <div>
+                        <h3 class="text-base font-semibold text-gray-900 mb-4">Brand Colors</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-900">Primary</p>
+                                    <p class="text-xs text-gray-500">Main brand color</p>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <input type="text" value="#667eea" class="w-20 text-xs font-mono px-2 py-1 border border-gray-300 rounded" readonly>
+                                    <div class="color-preview" style="background: #667eea;" onclick="openColorPicker('primary')"></div>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-900">Secondary</p>
+                                    <p class="text-xs text-gray-500">Accent color</p>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <input type="text" value="#764ba2" class="w-20 text-xs font-mono px-2 py-1 border border-gray-300 rounded" readonly>
+                                    <div class="color-preview" style="background: #764ba2;" onclick="openColorPicker('secondary')"></div>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-900">Background</p>
+                                    <p class="text-xs text-gray-500">Page background</p>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <input type="text" value="#ffffff" class="w-20 text-xs font-mono px-2 py-1 border border-gray-300 rounded" readonly>
+                                    <div class="color-preview" style="background: #ffffff; border: 1px solid #e5e7eb;" onclick="openColorPicker('background')"></div>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-900">Text</p>
+                                    <p class="text-xs text-gray-500">Primary text color</p>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <input type="text" value="#1f2937" class="w-20 text-xs font-mono px-2 py-1 border border-gray-300 rounded" readonly>
+                                    <div class="color-preview" style="background: #1f2937;" onclick="openColorPicker('text')"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Typography -->
+                    <div>
+                        <h3 class="text-base font-semibold text-gray-900 mb-4">Typography</h3>
+                        <div class="space-y-3">
+                            <div class="font-card selected" onclick="selectFont('inter')">
+                                <p style="font-family: 'Inter', sans-serif; font-size: 18px; font-weight: 600;">Inter</p>
+                                <p class="text-sm text-gray-500 mt-1" style="font-family: 'Inter', sans-serif;">The quick brown fox jumps</p>
+                            </div>
+                            <div class="font-card" onclick="selectFont('playfair')">
+                                <p style="font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 600;">Playfair Display</p>
+                                <p class="text-sm text-gray-500 mt-1" style="font-family: 'Playfair Display', serif;">The quick brown fox jumps</p>
+                            </div>
+                            <div class="font-card" onclick="selectFont('mono')">
+                                <p style="font-family: 'Roboto Mono', monospace; font-size: 18px; font-weight: 500;">Roboto Mono</p>
+                                <p class="text-sm text-gray-500 mt-1" style="font-family: 'Roboto Mono', monospace;">The quick brown fox jumps</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Spacing -->
+                    <div>
+                        <h3 class="text-base font-semibold text-gray-900 mb-4">Spacing</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <label class="text-sm font-medium text-gray-700">Section Padding</label>
+                                    <span class="text-sm text-purple-600 font-semibold">64px</span>
+                                </div>
+                                <input type="range" min="32" max="128" value="64" class="spacing-slider" oninput="updateSpacing('section', this.value)">
+                                <div class="flex justify-between text-xs text-gray-400 mt-1">
+                                    <span>Tight</span>
+                                    <span>Generous</span>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <label class="text-sm font-medium text-gray-700">Element Spacing</label>
+                                    <span class="text-sm text-purple-600 font-semibold">24px</span>
+                                </div>
+                                <input type="range" min="8" max="48" value="24" class="spacing-slider" oninput="updateSpacing('element', this.value)">
+                                <div class="flex justify-between text-xs text-gray-400 mt-1">
+                                    <span>Compact</span>
+                                    <span>Spacious</span>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <label class="text-sm font-medium text-gray-700">Border Radius</label>
+                                    <span class="text-sm text-purple-600 font-semibold">12px</span>
+                                </div>
+                                <input type="range" min="0" max="24" value="12" class="spacing-slider" oninput="updateSpacing('radius', this.value)">
+                                <div class="flex justify-between text-xs text-gray-400 mt-1">
+                                    <span>Sharp</span>
+                                    <span>Rounded</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dark Mode Toggle -->
+                    <div>
+                        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                            <div>
+                                <p class="text-sm font-medium text-gray-900">Dark Mode</p>
+                                <p class="text-xs text-gray-500">Enable dark theme</p>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" class="sr-only peer">
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-purple-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="p-6 border-t border-gray-200 bg-gray-50">
+                    <div class="flex space-x-3">
+                        <button class="flex-1 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
+                            Reset
+                        </button>
+                        <button class="flex-1 px-4 py-2 text-sm font-medium text-white gradient-bg rounded-lg hover:opacity-90">
+                            Apply Changes
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Live Preview -->
+            <div class="flex-1 bg-gray-100 overflow-y-auto">
+                <div class="p-6">
+                    <!-- Preview Controls -->
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center space-x-2">
+                            <button class="device-btn active" onclick="setPreviewDevice('desktop')">
+                                <i class="fas fa-desktop mr-2"></i>Desktop
+                            </button>
+                            <button class="device-btn" onclick="setPreviewDevice('mobile')">
+                                <i class="fas fa-mobile-alt mr-2"></i>Mobile
+                            </button>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <span class="text-sm text-gray-600">Live Preview</span>
+                            <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                        </div>
+                    </div>
+
+                    <!-- Preview Frame -->
+                    <div id="preview-container" class="preview-device preview-desktop bg-white rounded-xl shadow-2xl overflow-hidden">
+                        <!-- Hero Section -->
+                        <div class="relative h-96 gradient-bg flex items-center justify-center text-white px-8">
+                            <div class="text-center max-w-3xl">
+                                <h1 class="text-5xl font-bold mb-4">John Doe</h1>
+                                <p class="text-xl mb-8 opacity-90">Full Stack Developer & UI Designer</p>
+                                <div class="flex items-center justify-center space-x-4">
+                                    <button class="px-6 py-3 bg-white text-purple-600 rounded-lg font-semibold hover:bg-opacity-90">
+                                        View Projects
+                                    </button>
+                                    <button class="px-6 py-3 bg-transparent border-2 border-white rounded-lg font-semibold hover:bg-white hover:text-purple-600">
+                                        Contact Me
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- About Section -->
+                        <div class="py-16 px-8 bg-white">
+                            <div class="max-w-4xl mx-auto">
+                                <h2 class="text-3xl font-bold text-gray-900 mb-6">About Me</h2>
+                                <p class="text-lg text-gray-600 leading-relaxed mb-6">
+                                    I'm a passionate developer with 5+ years of experience building web applications.
+                                    I specialize in creating beautiful, functional, and user-friendly digital experiences.
+                                </p>
+                                <div class="grid grid-cols-3 gap-6 mt-8">
+                                    <div class="text-center p-6 bg-purple-50 rounded-xl">
+                                        <div class="text-3xl font-bold text-purple-600 mb-2">50+</div>
+                                        <div class="text-sm text-gray-600">Projects Completed</div>
+                                    </div>
+                                    <div class="text-center p-6 bg-pink-50 rounded-xl">
+                                        <div class="text-3xl font-bold text-pink-600 mb-2">30+</div>
+                                        <div class="text-sm text-gray-600">Happy Clients</div>
+                                    </div>
+                                    <div class="text-center p-6 bg-blue-50 rounded-xl">
+                                        <div class="text-3xl font-bold text-blue-600 mb-2">5+</div>
+                                        <div class="text-sm text-gray-600">Years Experience</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Projects Section -->
+                        <div class="py-16 px-8 bg-gray-50">
+                            <div class="max-w-6xl mx-auto">
+                                <h2 class="text-3xl font-bold text-gray-900 mb-8">Featured Projects</h2>
+                                <div class="grid grid-cols-3 gap-6">
+                                    <div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition">
+                                        <div class="h-48 bg-gradient-to-br from-purple-400 to-pink-400"></div>
+                                        <div class="p-6">
+                                            <h3 class="text-lg font-semibold text-gray-900 mb-2">E-commerce Platform</h3>
+                                            <p class="text-sm text-gray-600">Modern shopping experience</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition">
+                                        <div class="h-48 bg-gradient-to-br from-blue-400 to-cyan-400"></div>
+                                        <div class="p-6">
+                                            <h3 class="text-lg font-semibold text-gray-900 mb-2">Design System</h3>
+                                            <p class="text-sm text-gray-600">Component library</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition">
+                                        <div class="h-48 bg-gradient-to-br from-green-400 to-emerald-400"></div>
+                                        <div class="p-6">
+                                            <h3 class="text-lg font-semibold text-gray-900 mb-2">Mobile App</h3>
+                                            <p class="text-sm text-gray-600">Cross-platform solution</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function applyTheme(theme) {
+            document.querySelectorAll('.theme-preset').forEach(el => el.classList.remove('selected'));
+            event.target.closest('.theme-preset').classList.add('selected');
+            console.log('Applied theme:', theme);
+        }
+
+        function selectFont(font) {
+            document.querySelectorAll('.font-card').forEach(el => el.classList.remove('selected'));
+            event.target.closest('.font-card').classList.add('selected');
+            console.log('Selected font:', font);
+        }
+
+        function updateSpacing(type, value) {
+            event.target.parentElement.querySelector('span.text-purple-600').textContent = value + 'px';
+            console.log('Updated', type, 'spacing to:', value);
+        }
+
+        function openColorPicker(colorType) {
+            console.log('Opening color picker for:', colorType);
+        }
+
+        function setPreviewDevice(device) {
+            const container = document.getElementById('preview-container');
+            const buttons = document.querySelectorAll('.device-btn');
+
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            if (device === 'mobile') {
+                container.classList.remove('preview-desktop');
+                container.classList.add('preview-mobile');
+            } else {
+                container.classList.remove('preview-mobile');
+                container.classList.add('preview-desktop');
+            }
+        }
+    </script>
+</body>
+</html>
