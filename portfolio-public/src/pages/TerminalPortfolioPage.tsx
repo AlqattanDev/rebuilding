@@ -114,7 +114,7 @@ export default function TerminalPortfolioPage() {
                       {exp.company.toUpperCase()}
                     </div>
                     <div className="experience-role text-[9pt] text-terminal-muted mb-1">
-                      {exp.role}
+                      {exp.position}
                     </div>
                     <div className="experience-period text-[8pt] text-terminal-dim mb-3">
                       {exp.startDate} - {exp.endDate || 'Present'}
@@ -134,7 +134,7 @@ export default function TerminalPortfolioPage() {
             <TerminalSectionHeader title="Projects" />
             <div className="section-content">
               {portfolio.projects
-                .filter((p) => p.status === 'published')
+                .filter((p) => p.status !== 'draft')
                 .sort((a, b) => a.order - b.order)
                 .map((project) => (
                   <div
