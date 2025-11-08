@@ -6,6 +6,7 @@ import { ASCIIArtHeader } from '../components/ASCIIArtHeader';
 import TerminalSectionHeader from '../components/TerminalSectionHeader';
 import SkillsDotsProgress from '../components/SkillsDotsProgress';
 import TerminalContact from '../components/TerminalContact';
+import { useTypingEffect } from '../hooks/useTypingEffect';
 
 export default function TerminalPortfolioPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -72,16 +73,32 @@ export default function TerminalPortfolioPage() {
   // Extract first name or full name for ASCII art
   const displayName = portfolio.title.split(' ')[0] || 'USER';
 
+  // Typing effect for bio
+  const { displayedText: typedBio, isComplete } = useTypingEffect({
+    text: portfolio.bio.toUpperCase(),
+    speed: 30,
+    delay: 500,
+    enabled: true,
+  });
+
   return (
-    <div className="terminal-portfolio min-h-screen bg-terminal-bg text-terminal-green font-mono py-16 px-8">
-      <div className="terminal-container max-w-[900px] mx-auto">
+    <div className="terminal-portfolio relative min-h-screen bg-terminal-bg text-terminal-green font-mono py-16 px-8 overflow-hidden">
+      {/* Scanline effect overlay */}
+      <div className="scanline-overlay absolute inset-0 pointer-events-none opacity-10">
+        <div className="scanline absolute w-full h-[2px] bg-gradient-to-b from-transparent via-terminal-green to-transparent animate-scanline"></div>
+      </div>
+
+      <div className="terminal-container max-w-[900px] mx-auto relative z-10">
 
         {/* ASCII Art Header */}
-        <ASCIIArtHeader text={displayName} size="large" />
+        <div className="animate-terminal-fade-in">
+          <ASCIIArtHeader text={displayName} size="large" />
+        </div>
 
-        {/* Title/Role */}
-        <div className="title-line text-[18pt] font-bold tracking-[0.3em] my-6 text-terminal-green">
-          {portfolio.bio.toUpperCase()}
+        {/* Title/Role with typing effect */}
+        <div className="title-line text-[18pt] font-bold tracking-[0.3em] my-6 text-terminal-green animate-terminal-fade-in" style={{ animationDelay: '0.3s', animationFillMode: 'both' }}>
+          {typedBio}
+          {!isComplete && <span className="cursor animate-cursor-blink ml-1">█</span>}
         </div>
 
         {/* Divider */}
@@ -89,7 +106,7 @@ export default function TerminalPortfolioPage() {
 
         {/* Skills Section */}
         {portfolio.skills && portfolio.skills.length > 0 && (
-          <section className="terminal-section mb-12">
+          <section className="terminal-section mb-12 animate-terminal-slide-up" style={{ animationDelay: '0.6s', animationFillMode: 'both' }}>
             <TerminalSectionHeader title="Skills" />
             <div className="section-content">
               <SkillsDotsProgress skills={portfolio.skills} />
@@ -99,7 +116,7 @@ export default function TerminalPortfolioPage() {
 
         {/* Experience Section */}
         {portfolio.experiences && portfolio.experiences.length > 0 && (
-          <section className="terminal-section mb-12">
+          <section className="terminal-section mb-12 animate-terminal-slide-up" style={{ animationDelay: '0.8s', animationFillMode: 'both' }}>
             <TerminalSectionHeader title="Experience" />
             <div className="section-content">
               {portfolio.experiences
@@ -130,7 +147,7 @@ export default function TerminalPortfolioPage() {
 
         {/* Projects Section */}
         {portfolio.projects && portfolio.projects.length > 0 && (
-          <section className="terminal-section mb-12">
+          <section className="terminal-section mb-12 animate-terminal-slide-up" style={{ animationDelay: '1.0s', animationFillMode: 'both' }}>
             <TerminalSectionHeader title="Projects" />
             <div className="section-content">
               {portfolio.projects
@@ -183,7 +200,7 @@ export default function TerminalPortfolioPage() {
         )}
 
         {/* Contact Section */}
-        <section className="terminal-section mb-12">
+        <section className="terminal-section mb-12 animate-terminal-slide-up" style={{ animationDelay: '1.2s', animationFillMode: 'both' }}>
           <TerminalSectionHeader title="Contact" />
           <div className="section-content">
             <TerminalContact
@@ -196,7 +213,7 @@ export default function TerminalPortfolioPage() {
         </section>
 
         {/* Footer Metadata */}
-        <footer className="terminal-footer mt-16 pt-8 border-t-2 border-terminal-border">
+        <footer className="terminal-footer mt-16 pt-8 border-t-2 border-terminal-border animate-terminal-fade-in" style={{ animationDelay: '1.4s', animationFillMode: 'both' }}
           <div className="metadata text-[8pt] text-terminal-dim flex justify-between items-center">
             <div>
               <span>VERSION 1.0</span>
