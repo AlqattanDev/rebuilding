@@ -9,6 +9,7 @@ import SkillsSection from '../components/SkillsSection.js';
 import ExperienceSection from '../components/ExperienceSection.js';
 import ContactSection from '../components/ContactSection.js';
 import Footer from '../components/Footer.js';
+import TerminalPortfolioPage from './TerminalPortfolioPage.js';
 
 export default function PortfolioPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -67,6 +68,11 @@ export default function PortfolioPage() {
         </div>
       </div>
     );
+  }
+
+  // Check if this is a terminal template portfolio
+  if (portfolio.template === 'terminal') {
+    return <TerminalPortfolioPage />;
   }
 
   const colors = portfolio.theme.colors;

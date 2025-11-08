@@ -29,7 +29,7 @@ export class Portfolio {
   slug: string;
 
   @Column({ type: 'varchar', default: 'professional' })
-  template: 'professional' | 'creative' | 'minimal' | 'custom';
+  template: 'professional' | 'creative' | 'minimal' | 'terminal' | 'custom';
 
   @Column({ type: 'text' })
   title: string;

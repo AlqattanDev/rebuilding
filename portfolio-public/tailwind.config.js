@@ -5,6 +5,14 @@ export default {
   ],
   theme: {
     extend: {
+      colors: {
+        'terminal-bg': '#0a0a0a',
+        'terminal-green': '#00ff41',
+        'terminal-muted': '#888888',
+        'terminal-dim': '#666666',
+        'terminal-border': '#333333',
+        'terminal-accent': '#1a1a1a',
+      },
       animation: {
         'fade-in': 'fadeIn 0.6s ease-in-out',
         'slide-up': 'slideUp 0.6s ease-out',

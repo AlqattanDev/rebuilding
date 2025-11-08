@@ -13,6 +13,7 @@ export default function AppearanceCustomization() {
     { name: 'Professional', id: 'professional', colors: ['#1F2937', '#6B7280', '#0066CC'] },
     { name: 'Creative', id: 'creative', colors: ['#F59E0B', '#EC4899', '#8B5CF6'] },
     { name: 'Minimal', id: 'minimal', colors: ['#000000', '#FFFFFF', '#6B7280'] },
+    { name: 'Terminal', id: 'terminal', colors: ['#0a0a0a', '#00ff41', '#333333'] },
   ];
 
   const colors = currentPortfolio.appearance.theme.colors;

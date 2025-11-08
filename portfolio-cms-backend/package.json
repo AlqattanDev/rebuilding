@@ -10,6 +10,7 @@
     "start": "node dist/server.js",
     "migrate": "typeorm migration:run -d dist/config/database.js",
     "migrate:generate": "typeorm migration:generate -d dist/config/database.js",
+    "seed:terminal": "tsx src/seeds/terminal-theme.seed.ts",
     "lint": "eslint src --ext ts",
     "test": "jest --watch"
   },

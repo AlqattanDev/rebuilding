@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Space+Mono:wght@400;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -42,4 +44,93 @@ body {
   --color-text: #1F2937;
   --color-text-muted: #6B7280;
   --color-border: #E5E7EB;
+}
+
+/* ==== TERMINAL PORTFOLIO STYLES ==== */
+
+/* Terminal scrollbar */
+.terminal-portfolio::-webkit-scrollbar-thumb {
+  @apply bg-terminal-border hover:bg-terminal-muted;
+}
+
+.terminal-portfolio::-webkit-scrollbar-track {
+  @apply bg-terminal-accent;
+}
+
+/* Terminal selection */
+.terminal-portfolio ::selection {
+  @apply bg-terminal-green bg-opacity-20 text-terminal-green;
+}
+
+/* ASCII art glow effect */
+.ascii-name {
+  text-shadow: 0 0 10px rgba(0, 255, 65, 0.3);
+}
+
+/* Terminal text glow on hover */
+.terminal-contact .contact-item:hover,
+.shadow-terminal {
+  text-shadow: 0 0 5px rgba(0, 255, 65, 0.6);
+}
+
+/* Smooth animations for terminal elements */
+.terminal-section {
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+/* Print styles for terminal portfolio */
+@media print {
+  .terminal-portfolio {
+    @apply bg-white text-black;
+  }
+
+  .terminal-portfolio .ascii-name,
+  .terminal-portfolio .terminal-section-header,
+  .terminal-portfolio .skill-dots,
+  .terminal-portfolio .contact-item {
+    @apply text-black;
+    text-shadow: none;
+  }
+
+  .terminal-portfolio .terminal-border,
+  .terminal-portfolio .divider {
+    @apply border-black bg-black;
+  }
+
+  .terminal-portfolio .bracket,
+  .terminal-portfolio .terminal-muted,
+  .terminal-portfolio .terminal-dim {
+    @apply text-gray-600;
+  }
+
+  /* Hide interactive elements in print */
+  .terminal-portfolio .connection-status {
+    display: none;
+  }
+}
+
+/* Responsive terminal adjustments */
+@media (max-width: 768px) {
+  .terminal-portfolio {
+    @apply px-4 py-8;
+  }
+
+  .ascii-name {
+    font-size: 8pt;
+    line-height: 1.1;
+  }
+
+  .title-line {
+    font-size: 12pt !important;
+    letter-spacing: 0.2em !important;
+  }
+
+  .skill-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .skill-name {
+    min-width: auto !important;
+  }
 }

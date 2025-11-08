@@ -3,7 +3,7 @@ export interface Portfolio {
   userId: string;
   name: string;
   slug: string;
-  template: 'professional' | 'creative' | 'minimal' | 'custom';
+  template: 'professional' | 'creative' | 'minimal' | 'terminal' | 'custom';
   title: string;
   bio: string;
   email: string;
