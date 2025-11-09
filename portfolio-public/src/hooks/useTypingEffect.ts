@@ -29,7 +29,7 @@ export const useTypingEffect = ({
     setIsComplete(false);
 
     let currentIndex = 0;
-    let timeoutId: NodeJS.Timeout;
+    let timeoutId: number;
 
     // Initial delay before starting
     const startTyping = () => {

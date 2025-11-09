@@ -71,11 +71,11 @@ export default function TerminalPortfolioPage() {
   }
 
   // Extract first name or full name for ASCII art
-  const displayName = portfolio.title.split(' ')[0] || 'USER';
+  const displayName = portfolio?.title?.split(' ')[0] || 'USER';
 
   // Typing effect for bio
   const { displayedText: typedBio, isComplete } = useTypingEffect({
-    text: portfolio.bio.toUpperCase(),
+    text: portfolio?.bio?.toUpperCase() || 'PORTFOLIO',
     speed: 30,
     delay: 500,
     enabled: true,
@@ -105,7 +105,7 @@ export default function TerminalPortfolioPage() {
         <div className="divider h-[2px] bg-terminal-border my-6 sm:my-7 md:my-8"></div>
 
         {/* Skills Section */}
-        {portfolio.skills && portfolio.skills.length > 0 && (
+        {portfolio?.skills && portfolio.skills.length > 0 && (
           <section className="terminal-section mb-8 sm:mb-10 md:mb-12 animate-terminal-slide-up" style={{ animationDelay: '0.6s', animationFillMode: 'both' }}>
             <TerminalSectionHeader title="Skills" />
             <div className="section-content">
@@ -115,7 +115,7 @@ export default function TerminalPortfolioPage() {
         )}
 
         {/* Experience Section */}
-        {portfolio.experiences && portfolio.experiences.length > 0 && (
+        {portfolio?.experiences && portfolio.experiences.length > 0 && (
           <section className="terminal-section mb-8 sm:mb-10 md:mb-12 animate-terminal-slide-up" style={{ animationDelay: '0.8s', animationFillMode: 'both' }}>
             <TerminalSectionHeader title="Experience" />
             <div className="section-content">
@@ -128,7 +128,7 @@ export default function TerminalPortfolioPage() {
                   >
                     <div className="subsection-header font-mono font-bold text-[9pt] sm:text-[10pt] text-terminal-green mb-2">
                       <span className="bracket text-terminal-muted mr-2">&gt;</span>
-                      {exp.company.toUpperCase()}
+                      {exp.company?.toUpperCase() || 'COMPANY'}
                     </div>
                     <div className="experience-role text-[8pt] sm:text-[9pt] text-terminal-muted mb-1">
                       {exp.position}
@@ -146,7 +146,7 @@ export default function TerminalPortfolioPage() {
         )}
 
         {/* Projects Section */}
-        {portfolio.projects && portfolio.projects.length > 0 && (
+        {portfolio?.projects && portfolio.projects.length > 0 && (
           <section className="terminal-section mb-8 sm:mb-10 md:mb-12 animate-terminal-slide-up" style={{ animationDelay: '1.0s', animationFillMode: 'both' }}>
             <TerminalSectionHeader title="Projects" />
             <div className="section-content">
@@ -159,7 +159,7 @@ export default function TerminalPortfolioPage() {
                     className="project-item mb-5 sm:mb-6 pl-3 sm:pl-4 border-l-2 border-terminal-border"
                   >
                     <div className="project-name font-mono font-bold text-[9pt] sm:text-[10pt] text-terminal-green mb-2">
-                      {project.title.toUpperCase()}
+                      {project.title?.toUpperCase() || 'PROJECT'}
                     </div>
                     <p className="project-description text-[8pt] sm:text-[9pt] text-terminal-green leading-relaxed mb-2">
                       {project.description}
@@ -204,10 +204,10 @@ export default function TerminalPortfolioPage() {
           <TerminalSectionHeader title="Contact" />
           <div className="section-content">
             <TerminalContact
-              email={portfolio.email}
+              email={portfolio.email || 'contact@example.com'}
               phone={portfolio.phone}
               location={portfolio.location}
-              socials={portfolio.socials}
+              socials={portfolio.socials || {}}
             />
           </div>
         </section>
@@ -223,7 +223,7 @@ export default function TerminalPortfolioPage() {
               <span>STATUS: ACTIVE</span>
             </div>
             <div>
-              <span>VIEWS: {portfolio.views}</span>
+              <span>VIEWS: {portfolio.views || 0}</span>
             </div>
           </div>
         </footer>
