@@ -75,7 +75,16 @@ export default function PortfolioPage() {
     return <TerminalPortfolioPage />;
   }
 
-  const colors = portfolio.theme.colors;
+  // Default colors in case theme is not set
+  const defaultColors = {
+    primary: '#6B7BEE',
+    secondary: '#4B5BCC',
+    accent: '#8B9BFF',
+    background: '#FFFFFF',
+    text: '#1F2937',
+  };
+
+  const colors = portfolio.theme?.colors || defaultColors;
 
   // Render sections based on configuration
   const renderSection = (sectionName: string) => {
