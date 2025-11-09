@@ -12,7 +12,7 @@ export const TerminalSectionHeader: React.FC<TerminalSectionHeaderProps> = ({
   className = ''
 }) => {
   return (
-    <div className={`terminal-section-header font-mono font-bold text-[11pt] tracking-wider mb-4 text-terminal-green ${className}`}>
+    <div className={`terminal-section-header font-mono font-bold text-[10pt] sm:text-[11pt] tracking-wider mb-3 sm:mb-4 text-terminal-green ${className}`}>
       <span className="bracket text-terminal-muted mr-2">{icon}</span>
       {title.toUpperCase()}
     </div>

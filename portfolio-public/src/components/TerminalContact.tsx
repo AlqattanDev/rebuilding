@@ -38,20 +38,20 @@ export const TerminalContact: React.FC<TerminalContactProps> = ({
     label: string;
   }> = ({ icon, value, copyValue, label }) => (
     <div
-      className="contact-item font-mono text-[9pt] text-terminal-green cursor-pointer hover:text-white transition-colors group flex items-center gap-2"
+      className="contact-item font-mono text-[8pt] sm:text-[9pt] text-terminal-green cursor-pointer hover:text-white transition-colors group flex items-center gap-2 break-all sm:break-normal"
       onClick={() => copyValue && copyToClipboard(copyValue, label)}
       title={copyValue ? "Click to copy" : ""}
     >
       <span className="text-terminal-muted">{icon}</span>
       <span className="group-hover:shadow-terminal">{value}</span>
       {copiedItem === label && (
-        <span className="text-[8pt] text-terminal-muted ml-2">✓ copied</span>
+        <span className="text-[7pt] sm:text-[8pt] text-terminal-muted ml-2">✓ copied</span>
       )}
     </div>
   );
 
   return (
-    <div className={`terminal-contact flex flex-col gap-2 ${className}`}>
+    <div className={`terminal-contact flex flex-col gap-2 sm:gap-3 ${className}`}>
       {/* Email */}
       <ContactItem
         icon="→"
